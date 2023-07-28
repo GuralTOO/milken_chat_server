@@ -193,6 +193,8 @@ for page in all_docs:
 
 # export all functions
 
+load_pages()
+load_pdfs()
 
 # print(my_mongodb.get_count("pages"))
 # # print the length of the array returned from get_everything
