@@ -14,11 +14,10 @@ client = weaviate.Client(
     url="http://157.230.62.148:8080/",  # Replace with your endpoint
     additional_headers={
         "X-OpenAI-Api-Key": os.environ["OPENAI_API_KEY"],
-
     }
 )
 
-# classes = client.schema.get().get("classes")
+classes = client.schema.get().get("classes")
 
 
 # get all class names
@@ -144,27 +143,27 @@ def get_all_items(class_name, variables=[""]):
 
 
 def load_pages():
-    all_pages = list(my_mongodb.get_everything("pages"))
+    all_pages = list(my_mongodb.get_everything("milkenpages"))
     for page in all_pages:
-        load_page(class_name="Econ_club_data",
+        load_page(class_name="Milken_Institute_data",
                   text=page["text"], url=page["url"])
     print("loaded " + str(len(all_pages)) + " pages")
 
 
 def load_pdfs():
-    all_pdfs = list(my_mongodb.get_everything("documents"))
+    all_pdfs = list(my_mongodb.get_everything("milkendocuments"))
     for pdf in all_pdfs:
         # check if pdf ends with .pdf
         if pdf["url"].endswith(".pdf"):
             counter = counter + 1
-            load_pdf(class_name="Econ_club_data", url=pdf["url"])
+            load_pdf(class_name="Milken_Institute_data", url=pdf["url"])
 
     print("loaded " + str(counter) + " pdfs")
 
 
 # load_pages()
 
-all_docs = list(my_mongodb.get_everything("documents"))
+all_docs = list(my_mongodb.get_everything("milkendocuments"))
 counter = 0
 for page in all_docs:
     counter = counter + 1
@@ -172,7 +171,6 @@ for page in all_docs:
     print("\n")
     if counter == 25:
         break
-
 
 # print(get_class_names())
 # print(get_class("SampleParagraph")["properties"])
