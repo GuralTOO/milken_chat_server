@@ -64,8 +64,21 @@ def delete_class(class_name):
 # add item to database
 
 
+def check_if_item_exists(class_name, item):
+    try:
+        results = client.query.get(class_name=class_name, properties=["url", "page_text"]).with_where(
+            {"path": "page_text", "operator": "Equal", "valueString": item["page_text"]}).with_limit(1).do()
+        if results["data"]["Get"][class_name]:
+            return True
+    except:
+        return False
+
+
 def add_item(class_name, item):
-    client.data_object.create(class_name=class_name, data_object=item)
+    if not check_if_item_exists(class_name=class_name, item=item):
+        client.data_object.create(class_name=class_name, data_object=item)
+    else:
+        print("Item already exists")
 
 
 def load_page(class_name, text, url):
