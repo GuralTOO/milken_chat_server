@@ -4,6 +4,7 @@ import dotenv
 import os
 dotenv.load_dotenv()
 
+print(os.environ["MONGODB_URL"])
 client = MongoClient(os.environ["MONGODB_URL"])
 
 db_name = "test"
@@ -21,6 +22,8 @@ def get_count(collection_name, filter={}):
 def get_everything(collection_name, filter={}):
     return db.get_collection(collection_name).find(filter=filter)
 
+
+print(get_collection_names())
 
 # close connection to mongodb
 

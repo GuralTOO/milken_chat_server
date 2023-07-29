@@ -11,7 +11,7 @@ import my_mongodb
 
 dotenv.load_dotenv()
 client = weaviate.Client(
-    url="http://157.230.62.148:8080/",  # Replace with your endpoint
+    url="http://206.189.199.72:8080/",  # Replace with your endpoint
     additional_headers={
         "X-OpenAI-Api-Key": os.environ["OPENAI_API_KEY"],
     }
