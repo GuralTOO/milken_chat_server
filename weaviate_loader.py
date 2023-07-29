@@ -144,6 +144,7 @@ def get_all_items(class_name, variables=[""]):
 
 def load_pages():
     all_pages = list(my_mongodb.get_everything("milkenpages"))
+    print("starting to load " + str(len(all_pages)) + " pages" + "\n")
     for page in all_pages:
         load_page(class_name="Milken_Institute_data",
                   text=page["text"], url=page["url"])
@@ -152,6 +153,8 @@ def load_pages():
 
 def load_pdfs():
     all_pdfs = list(my_mongodb.get_everything("milkendocuments"))
+    print("starting to load " + str(len(all_pdfs)) + " pdfs" + "\n")
+
     for pdf in all_pdfs:
         # check if pdf ends with .pdf
         if pdf["url"].endswith(".pdf"):
@@ -182,8 +185,8 @@ for page in all_docs:
 #          "https://www.economicclub.org/sites/default/files/Kamisha%20Mason_Final.pdf")
 
 # delete_class("Econ_club_data")
-# add_class("Econ_club_data", "Web scraped or pdf loaded documents from the Economic Club of Washington DC website",
-#           ["url", "page_text"])
+add_class("Milken_Institute_data", "Web scraped or pdf loaded documents from the Milken Institute website",
+          ["url", "page_text"])
 
 # add_item("Econ_club_data", {
 #          "url": "https://www.economicclub.org/sites/default/files/Kamisha%20Mason_Final.pdf", "page_text": "Hello World"})
