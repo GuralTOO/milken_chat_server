@@ -197,7 +197,7 @@ for page in all_docs:
 # load_pdf("SampleParagraph",
 #          "https://www.economicclub.org/sites/default/files/Kamisha%20Mason_Final.pdf")
 
-# delete_class("Econ_club_data")
+delete_class("Milken_Institute_data")
 add_class("Milken_Institute_data", "Web scraped or pdf loaded documents from the Milken Institute website",
           ["url", "page_text"])
 
