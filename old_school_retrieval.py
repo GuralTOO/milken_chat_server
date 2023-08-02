@@ -49,11 +49,11 @@ def get_answer_stream(question: str):
 def get_openai_summary(text: str, question: str):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=[{"role": "system", "content": "your job is to help describe a webpage. This webpage contains a some information about a question that the user asked. " +
+        messages=[{"role": "system", "content": "your job is to help describe a webpage. This webpage may or may not contain a some information relevant to a question that the user asked. Describe the webpage regardless. " +
                    "This is a piece of text from the webpage: " + text + " And this is the question the user asked: " + question}, ],
         max_tokens=2500,
         temperature=0.3,
         stream=False,
     )
     print(response)
-    return response["choices"][0]["text"]
+    return response["choices"][0]["message"]["content"]
