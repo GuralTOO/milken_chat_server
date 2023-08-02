@@ -25,7 +25,7 @@ def handle_message(input_text):
 def search(text_query):
     print("Searching for: " + text_query)
     results = search_items(class_name="Econ_club_data_06142023", variables=[
-        "url", "page_text"], text_query=text_query, k=5)
+        "url", "page_text"], text_query=text_query, k=3)
 
     for result in results:
         result["summary"] = get_openai_summary(result["page_text"], text_query)
