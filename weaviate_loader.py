@@ -11,7 +11,7 @@ import my_mongodb
 
 dotenv.load_dotenv()
 client = weaviate.Client(
-    url="http://206.189.199.72:8080/",  # Replace with your endpoint
+    url="http://127.0.0.1:8080/",  # Replace with your endpoint
     additional_headers={
         "X-OpenAI-Api-Key": os.environ["OPENAI_API_KEY"],
     }
@@ -24,8 +24,6 @@ classes = client.schema.get().get("classes")
 def get_class_names():
     class_names = [c["class"] for c in classes]
     return class_names
-
-# get class with a given name
 
 
 def get_class(class_name):
@@ -75,10 +73,10 @@ def check_if_item_exists(class_name, item):
 
 
 def add_item(class_name, item):
-    if not check_if_item_exists(class_name=class_name, item=item):
-        client.data_object.create(class_name=class_name, data_object=item)
-    else:
-        print("Item already exists")
+    # if not check_if_item_exists(class_name=class_name, item=item):
+    client.data_object.create(class_name=class_name, data_object=item)
+    # else:
+    # print("Item already exists")
 
 
 def load_page(class_name, text, url):
@@ -156,37 +154,41 @@ def get_all_items(class_name, variables=[""]):
 
 
 def load_pages():
-    all_pages = list(my_mongodb.get_everything("milkenpages"))
+    bucket_name = "pages"
+    class_name = "Econ_club_data_06142023"
+    all_pages = list(my_mongodb.get_everything(bucket_name))
     print("starting to load " + str(len(all_pages)) + " pages" + "\n")
     for page in all_pages:
-        load_page(class_name="Milken_Institute_data",
+        load_page(class_name=class_name,
                   text=page["text"], url=page["url"])
     print("loaded " + str(len(all_pages)) + " pages")
 
 
 def load_pdfs():
-    all_pdfs = list(my_mongodb.get_everything("milkendocuments"))
+    bucket_name = "documents"
+    class_name = "Econ_club_data_06142023"
+    all_pdfs = list(my_mongodb.get_everything(bucket_name))
     print("starting to load " + str(len(all_pdfs)) + " pdfs" + "\n")
 
     for pdf in all_pdfs:
         # check if pdf ends with .pdf
         if pdf["url"].endswith(".pdf"):
             counter = counter + 1
-            load_pdf(class_name="Milken_Institute_data", url=pdf["url"])
+            load_pdf(class_name=class_name, url=pdf["url"])
 
     print("loaded " + str(counter) + " pdfs")
 
 
 # load_pages()
 
-all_docs = list(my_mongodb.get_everything("milkendocuments"))
-counter = 0
-for page in all_docs:
-    counter = counter + 1
-    print(page["url"])
-    print("\n")
-    if counter == 25:
-        break
+# all_docs = list(my_mongodb.get_everything("milkendocuments"))
+# counter = 0
+# for page in all_docs:
+#     counter = counter + 1
+#     print(page["url"])
+#     print("\n")
+#     if counter == 25:
+#         break
 
 # print(get_class_names())
 # print(get_class("SampleParagraph")["properties"])
@@ -197,9 +199,9 @@ for page in all_docs:
 # load_pdf("SampleParagraph",
 #          "https://www.economicclub.org/sites/default/files/Kamisha%20Mason_Final.pdf")
 
-delete_class("Milken_Institute_data")
-add_class("Milken_Institute_data", "Web scraped or pdf loaded documents from the Milken Institute website",
-          ["url", "page_text"])
+# delete_class("Milken_Institute_data")
+# add_class("Milken_Institute_data", "Web scraped or pdf loaded documents from the Milken Institute website",
+#           ["url", "page_text"])
 
 # add_item("Econ_club_data", {
 #          "url": "https://www.economicclub.org/sites/default/files/Kamisha%20Mason_Final.pdf", "page_text": "Hello World"})
@@ -209,8 +211,8 @@ add_class("Milken_Institute_data", "Web scraped or pdf loaded documents from the
 
 # export all functions
 
-load_pages()
-load_pdfs()
+# load_pages()
+# load_pdfs()
 
 # print(my_mongodb.get_count("pages"))
 # # print the length of the array returned from get_everything
