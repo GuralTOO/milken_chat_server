@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_socketio import SocketIO, send
-from old_school_retrieval import get_answer_stream, search_items
+from old_school_retrieval import get_answer_stream, search_items, get_openai_summary
 
 print("starting server daddy")
 
@@ -23,10 +23,15 @@ def handle_message(input_text):
 def search(text_query):
     print("Searching for: " + text_query)
     results = search_items(class_name="Econ_club_data_06142023", variables=[
-        "url"], text_query=text_query, k=5)
-    print("Search results: \n", results)
+        "url", "page_text"], text_query=text_query, k=5)
 
-    return results
+    for result in results:
+        result["summary"] = get_openai_summary(result["page_text"], text_query)
+
+    print("Search results with summaries: \n", results)
+
+    # convert results to json and return
+    return {"results": results}
 
 
 if __name__ == '__main__':

@@ -44,3 +44,15 @@ def get_answer_stream(question: str):
     for part in response:
         if 'content' in part['choices'][0]['delta']:
             yield part['choices'][0]['delta']['content']
+
+
+def get_openai_summary(text: str, question: str):
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "system", "content": "your job is to help describe a webpage. This webpage contains a some information about a question that the user asked. " +
+                   "This is a piece of text from the webpage: " + text + " And this is the question the user asked: " + question}, ],
+        max_tokens=2500,
+        temperature=0.3,
+        stream=False,
+    )
+    return response["choices"][0]["text"]
