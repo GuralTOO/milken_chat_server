@@ -42,6 +42,5 @@ def get_answer_stream(question: str):
         stream=True,
     )
     for part in response:
-        print(part)
         if 'content' in part['choices'][0]['delta']:
             yield part['choices'][0]['delta']['content']
