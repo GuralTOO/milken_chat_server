@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_socketio import SocketIO, send
-from old_school_retrieval import get_answer_stream
+from old_school_retrieval import get_answer_stream, search_items
 
 print("starting server daddy")
 
@@ -15,6 +15,17 @@ def handle_message(input_text):
     print('received message: ' + input_text)
     for chunk in get_answer_stream(input_text):
         send(chunk)
+
+# api endpoint to get results of search_items
+
+
+@app.route('/search/<text_query>')
+def search(text_query):
+    results = search_items(class_name="Econ_club_data_06142023", variables=[
+        "url"], text_query=text_query, k=5)
+    print("Search results: \n", results)
+
+    return results
 
 
 if __name__ == '__main__':
