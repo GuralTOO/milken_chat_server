@@ -1,10 +1,12 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_socketio import SocketIO, send
 from old_school_retrieval import get_answer_stream, search_items, get_openai_summary
 
 print("starting server daddy")
 
 app = Flask(__name__)
+CORS(app)  # this would enable CORS for all routes
 app.config['SECRET_KEY'] = 'mysecret'
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
 
