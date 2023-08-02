@@ -49,7 +49,7 @@ def get_answer_stream(question: str):
 def get_openai_summary(text: str, question: str):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=[{"role": "system", "content": "your job is to briefly describe a webpage. This webpage may or may not contain a some information relevant to a question that the user asked. Describe the webpage regardless. " +
+        messages=[{"role": "system", "content": "your job is to describe a webpage in 10 words or less. This webpage may or may not contain a some information relevant to a question that the user asked. Describe the webpage regardless. " +
                    "This is a piece of text from the webpage: " + text + " And this is the question the user asked: " + question}, ],
         max_tokens=50,
         temperature=0.3,
