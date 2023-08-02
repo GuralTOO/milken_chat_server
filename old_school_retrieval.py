@@ -55,4 +55,5 @@ def get_openai_summary(text: str, question: str):
         temperature=0.3,
         stream=False,
     )
+    print(response)
     return response["choices"][0]["text"]
