@@ -29,6 +29,8 @@ def search(text_query):
 
     for result in results:
         result["summary"] = get_openai_summary(result["page_text"], text_query)
+        # remove the page_text from the result
+        del result["page_text"]
 
     print("Search results with summaries: \n", results)
 
