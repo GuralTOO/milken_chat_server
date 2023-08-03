@@ -10,7 +10,7 @@ openai.api_key = config("OPENAI_API_KEY")
 OPEN_API_KEY = os.getenv('OPENAI_API_KEY')
 
 print("opening weaviate")
-weaviate_class_name = "Econ_club_data_06142023"
+weaviate_class_name = "milken_institute_data"
 
 WEAVIATE_URL = "http://127.0.0.1:8080/"
 
@@ -35,7 +35,7 @@ def get_answer_stream(question: str):
         "page_text"], text_query=question, k=5)
     response = openai.ChatCompletion.create(
         model="gpt-4",
-        messages=[{"role": "system", "content": "You are a helpful and honest assistant that will chat with a user about the Economic Club of Washington DC. You knowledge might be limited, so if you don't know an answer, be clear about it. For now, learn the following information " + str(context)},
+        messages=[{"role": "system", "content": "You are a helpful and honest assistant that will chat with a user about the Milken Institute. You knowledge might be limited, so if you don't know an answer, be clear about it. For now, learn the following information " + str(context)},
                   {"role": "user", "content": "This is my question: " + question}],
         max_tokens=2500,
         temperature=0.3,
@@ -49,7 +49,7 @@ def get_answer_stream(question: str):
 def get_openai_summary(text: str, question: str):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=[{"role": "system", "content": "Your job is to describe a webpage taken from the economic club website in 7 words or less. This webpage may or may not contain information relevant to a question that the user asked. Describe the webpage in under 7 words regardless. " +
+        messages=[{"role": "system", "content": "Your job is to describe a webpage taken from the Milken Institute website in 7 words or less. This webpage may or may not contain information relevant to a question that the user asked. Describe the webpage in under 7 words regardless. " +
                    "This is a piece of text from the webpage: " + text + " And this is the question the user asked: " + question}, ],
         max_tokens=50,
         temperature=0.3,
