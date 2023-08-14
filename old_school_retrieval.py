@@ -10,10 +10,9 @@ openai.api_key = config("OPENAI_API_KEY")
 OPEN_API_KEY = os.getenv('OPENAI_API_KEY')
 
 print("opening weaviate")
-weaviate_class_name = "milken_institute_data"
+weaviate_class_name = "Corrected_Milken_Institute_data"
 
-WEAVIATE_URL = "http://127.0.0.1:8080/"
-
+WEAVIATE_URL = "http://206.189.199.72:8080/"
 client = weaviate.Client(
     url=WEAVIATE_URL,  # Replace with your endpoint
     additional_headers={
@@ -35,7 +34,7 @@ def get_answer_stream(question: str):
         "page_text"], text_query=question, k=5)
     response = openai.ChatCompletion.create(
         model="gpt-4",
-        messages=[{"role": "system", "content": "You are a helpful and honest assistant that will chat with a user about the Milken Institute. You knowledge might be limited, so if you don't know an answer, be clear about it. For now, learn the following information " + str(context)},
+        messages=[{"role": "system", "content": "You are a helpful and honest assistant that will chat with a user about the Milken Institute. In addition to your general knowledge, you have recently learned the following information: " + str(context)},
                   {"role": "user", "content": "This is my question: " + question}],
         max_tokens=2500,
         temperature=0.3,

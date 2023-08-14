@@ -15,6 +15,9 @@ def get_collection_names():
     return db.list_collection_names()
 
 
+# print(get_collection_names())
+
+
 def get_count(collection_name, filter={}):
     return db.get_collection(collection_name).count_documents(filter=filter)
 
@@ -22,8 +25,6 @@ def get_count(collection_name, filter={}):
 def get_everything(collection_name, filter={}):
     return db.get_collection(collection_name).find(filter=filter)
 
-
-print(get_collection_names())
 
 # close connection to mongodb
 

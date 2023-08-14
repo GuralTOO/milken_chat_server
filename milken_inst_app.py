@@ -24,7 +24,7 @@ def handle_message(input_text):
 @app.route('/search/<text_query>')
 def search(text_query):
     print("Searching for: " + text_query)
-    results = search_items(class_name="Econ_club_data_06142023", variables=[
+    results = search_items(class_name="Corrected_Milken_Institute_data", variables=[
         "url", "page_text"], text_query=text_query, k=3)
 
     for result in results:

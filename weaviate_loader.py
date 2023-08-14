@@ -11,7 +11,7 @@ import my_mongodb
 
 dotenv.load_dotenv()
 client = weaviate.Client(
-    url="http://127.0.0.1:8080/",  # Replace with your endpoint
+    url="http://206.189.199.72:8080/",  # Replace with your endpoint
     additional_headers={
         "X-OpenAI-Api-Key": os.environ["OPENAI_API_KEY"],
     }
@@ -24,6 +24,9 @@ classes = client.schema.get().get("classes")
 def get_class_names():
     class_names = [c["class"] for c in classes]
     return class_names
+
+
+print(get_class_names())
 
 
 def get_class(class_name):
@@ -58,6 +61,12 @@ def delete_class(class_name):
         client.schema.delete_class(class_name=class_name)
     except:
         print("Class does not exist")
+
+
+# delete_class("Milken_Institute_data")
+
+# add_class("Milken_Institute_data", variables=["page_text", "url"])
+# print(get_class_names())
 
 # add item to database
 
@@ -154,32 +163,43 @@ def get_all_items(class_name, variables=[""]):
 
 
 def load_pages():
-    bucket_name = "pages"
-    class_name = "Econ_club_data_06142023"
+    bucket_name = "milkenpages"
+    class_name = "Corrected_Milken_Institute_data"
     all_pages = list(my_mongodb.get_everything(bucket_name))
     print("starting to load " + str(len(all_pages)) + " pages" + "\n")
+    cnt = 0
     for page in all_pages:
         load_page(class_name=class_name,
                   text=page["text"], url=page["url"])
+        cnt += 1
+        if cnt % 25 == 0:
+            print("loaded " + str(cnt) + " pages")
     print("loaded " + str(len(all_pages)) + " pages")
 
 
 def load_pdfs():
-    bucket_name = "documents"
-    class_name = "Econ_club_data_06142023"
+    bucket_name = "milkendocuments"
+    class_name = "Corrected_Milken_Institute_data"
     all_pdfs = list(my_mongodb.get_everything(bucket_name))
     print("starting to load " + str(len(all_pdfs)) + " pdfs" + "\n")
+    cnt = 0
 
     for pdf in all_pdfs:
         # check if pdf ends with .pdf
         if pdf["url"].endswith(".pdf"):
-            counter = counter + 1
             load_pdf(class_name=class_name, url=pdf["url"])
+        cnt += 1
+        if cnt % 25 == 0:
+            print("loaded " + str(cnt) + " pdfs")
 
-    print("loaded " + str(counter) + " pdfs")
+    print("loaded " + str(len(all_pdfs)) + " pdfs")
+
+# add_class("Milken_Institute_data", variables=["page_text", "url"])
 
 
+# add_class("Corrected_Milken_Institute_data", variables=["page_text", "url"])
 # load_pages()
+load_pdfs()
 
 # all_docs = list(my_mongodb.get_everything("milkendocuments"))
 # counter = 0
